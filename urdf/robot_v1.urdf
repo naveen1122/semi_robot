@@ -1,0 +1,1894 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Robot V1 (Tnkr) - mobile dual-arm manipulator with a 650 mm lifting torso.
+  Generated from the Onshape model "Robot V1 Body" (BOM release 2/3) and the TRLC-DK1 follower URDF.
+  Frames: REP-103 (x forward, y left, z up). base_footprint on the floor, base_link on the drive axle (0.100 m up).
+  Units: SI. Masses and inertias of the body come from Onshape mass properties of the CAD parts.
+  Suspension is RIGID in this file (drive wheels held at ride height).
+  Actuated joints:
+    left_wheel_joint, right_wheel_joint      velocity, 16 N.m peak, 20.94 rad/s (2.09 m/s at the tyre)
+    lift_joint                               position, 0 to 0.650 m, 600 N, 0.039 m/s
+    head_pan_joint, head_tilt_joint          position, 4.1 N.m, 4.8 rad/s
+    left_/right_arm_joint1..3                position, 27 N.m peak, 5.49 rad/s (DM-J4340)
+    left_/right_arm_joint4..6                position, 7 N.m peak, 20.94 rad/s (DM-J4310)
+    left_/right_arm_gripper_joint            position, -0.045 (open) to 0.001 m, 114 N
+  Passive: 4 casters (swivel + wheel); mimic: lift_stage2_joint (0.5 x lift), *_arm_gripper_mimic_joint.
+  Depth cameras: head_camera (ZED X, fixed), pantilt_camera (ZED X on the pan-tilt), nav_camera (ZED X Mini);
+  depth is referenced to <camera>_left_camera_optical_frame. Gazebo sensor definitions are at the end of the file.
+-->
+<robot name="robot_v1">
+
+  <material name="c_090910"><color rgba="0.09 0.09 0.1 1"/></material>
+  <material name="c_1009591"><color rgba="1 0.95 0.91 1"/></material>
+  <material name="c_111111"><color rgba="0.11 0.11 0.11 1"/></material>
+  <material name="c_153575"><color rgba="0.15 0.35 0.75 1"/></material>
+  <material name="c_171717"><color rgba="0.17 0.17 0.17 1"/></material>
+  <material name="c_202020"><color rgba="0.2 0.2 0.2 1"/></material>
+  <material name="c_262626"><color rgba="0.26 0.26 0.26 1"/></material>
+  <material name="c_262729"><color rgba="0.26 0.27 0.29 1"/></material>
+  <material name="c_335328"><color rgba="0.33 0.53 0.28 1"/></material>
+  <material name="c_454545"><color rgba="0.45 0.45 0.45 1"/></material>
+  <material name="c_626262"><color rgba="0.62 0.62 0.62 1"/></material>
+  <material name="c_697174"><color rgba="0.69 0.71 0.74 1"/></material>
+  <material name="c_757678"><color rgba="0.75 0.76 0.78 1"/></material>
+  <material name="c_777880"><color rgba="0.77 0.78 0.8 1"/></material>
+  <material name="c_801212"><color rgba="0.8 0.12 0.12 1"/></material>
+  <material name="c_939395"><color rgba="0.93 0.93 0.95 1"/></material>
+  <material name="c_947708"><color rgba="0.94 0.77 0.08 1"/></material>
+  <material name="c_969696"><color rgba="0.96 0.96 0.96 1"/></material>
+  <link name="base_footprint">
+  </link>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.00352701 0.00644354 0.145735" rpy="0 0 0"/>
+      <mass value="54.6493"/>
+      <inertia ixx="2.46606" ixy="0.00879979" ixz="0.439081" iyy="2.89929" iyz="-0.078424" izz="3.0739"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.2718 -0.10995 0.10495" rpy="0 0 0"/>
+      <geometry><box size="0.0476 0.0365 0.0159"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.288 -0.04 0.105" rpy="0 0 0"/>
+      <geometry><box size="0.018 0.022 0.022"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.592 0.398 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.204 0.2475 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.184 0.097 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.204 -0.2475 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.184 0.097 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.226 0.2475 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.14 0.097 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.226 -0.2475 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.14 0.097 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.133 0.2545 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.046 0.083 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.133 -0.2545 0.003" rpy="0 0 0"/>
+      <geometry><box size="0.046 0.083 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.216 -0.216 -0.001" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.002"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.216 -0.216 -0.001" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.002"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.216 0.216 -0.001" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.002"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.216 0.216 -0.001" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.06 0.002"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.03 0 0.281" rpy="0 0 0"/>
+      <geometry><box size="0.07 0.07 0.518"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.292 -0.08 0.071" rpy="0 0 0"/>
+      <geometry><box size="0.004 0.14 0.13"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.3006 -0.11 0.105" rpy="0 0 0"/>
+      <geometry><box size="0.01 0.04 0.02"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.2955 -0.04 0.105" rpy="0 0 0"/>
+      <geometry><box size="0.003 0.04 0.04"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.304 -0.04 0.105" rpy="0 0 0"/>
+      <geometry><box size="0.014 0.028 0.028"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.105 0.215 0.383" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.024" length="0.082"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.13 0 0.358" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.704"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.153 0 0.54" rpy="0 0 0"/>
+      <geometry><box size="0.006 0.1 0.12"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.176 0 0.542" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.249 0.17"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.1525 0 0.664" rpy="0 0 0"/>
+      <geometry><box size="0.005 0.07 0.07"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.1805 0 0.664" rpy="0 0 0"/>
+      <geometry><box size="0.051 0.068 0.068"/></geometry>
+      <material name="c_947708"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.226 0 0.664" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.02" length="0.04"/></geometry>
+      <material name="c_801212"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.122 0.04 0.703" rpy="0 0 0"/>
+      <geometry><box size="0.054 0.04 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.291 0 0.101" rpy="0 0 0"/>
+      <geometry><box size="0.002 0.58 0.19"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.291 0 0.101" rpy="0 0 0"/>
+      <geometry><box size="0.002 0.58 0.19"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.291 0.101" rpy="0 0 0"/>
+      <geometry><box size="0.58 0.002 0.19"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.291 0.101" rpy="0 0 0"/>
+      <geometry><box size="0.58 0.002 0.19"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="0.182 0 0.197" rpy="0 0 0"/>
+      <geometry><box size="0.21 0.574 0.002"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.1085 -0.14725 0.256" rpy="0 0 0"/>
+      <geometry><box size="0.371 0.2935 0.172"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.1085 0.14725 0.256" rpy="0 0 0"/>
+      <geometry><box size="0.371 0.2935 0.172"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.105 0.215 0.383" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.024" length="0.082"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.13 0 0.358" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.704"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.153 0 0.54" rpy="0 0 0"/>
+      <geometry><box size="0.006 0.1 0.12"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.176 0 0.542" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.249 0.17"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.1805 0 0.664" rpy="0 0 0"/>
+      <geometry><box size="0.051 0.068 0.068"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.226 0 0.664" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.02" length="0.04"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.202 0 0.099" rpy="0 0 0"/>
+      <geometry><box size="0.18 0.584 0.198"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.202 0 0.099" rpy="0 0 0"/>
+      <geometry><box size="0.18 0.584 0.198"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 0.099" rpy="0 0 0"/>
+      <geometry><box size="0.224 0.398 0.198"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.1085 0 0.27" rpy="0 0 0"/>
+      <geometry><box size="0.371 0.588 0.144"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.03 0 0.441" rpy="0 0 0"/>
+      <geometry><box size="0.07 0.07 0.198"/></geometry>
+    </collision>
+  </link>
+  <link name="left_suspension_link">
+    <inertial>
+      <origin xyz="0.069694 -0.007623 -0.011953" rpy="0 0 0"/>
+      <mass value="0.63541"/>
+      <inertia ixx="0.000484167" ixy="-0.000291624" ixz="0.000274727" iyy="0.0027079" iyz="4.83244e-05" izz="0.00267872"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.076 0 -0.0185" rpy="0 0 0"/>
+      <geometry><box size="0.212 0.012 0.081"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+  </link>
+  <link name="left_wheel_link">
+    <inertial>
+      <origin xyz="0 0.000937 0" rpy="0 0 0"/>
+      <mass value="3.40122"/>
+      <inertia ixx="0.0075336" ixy="0" ixz="0" iyy="0.0134331" iyz="0" izz="0.00753351"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.1" length="0.0494"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.078" length="0.0474"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.0274 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.055" length="0.0074"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.0309 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.022" length="0.0144"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.0571 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.007" length="0.038"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.1" length="0.0494"/></geometry>
+    </collision>
+  </link>
+  <link name="right_suspension_link">
+    <inertial>
+      <origin xyz="0.069694 0.007623 -0.011953" rpy="0 0 0"/>
+      <mass value="0.63541"/>
+      <inertia ixx="0.000484167" ixy="0.000291624" ixz="0.000274727" iyy="0.0027079" iyz="-4.83244e-05" izz="0.00267872"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.076 0 -0.0185" rpy="0 0 0"/>
+      <geometry><box size="0.212 0.012 0.081"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+  </link>
+  <link name="right_wheel_link">
+    <inertial>
+      <origin xyz="0 -0.000937 0" rpy="0 0 0"/>
+      <mass value="3.40122"/>
+      <inertia ixx="0.0075336" ixy="0" ixz="0" iyy="0.0134331" iyz="0" izz="0.00753351"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.1" length="0.0494"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.078" length="0.0474"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.0274 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.055" length="0.0074"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.0309 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.022" length="0.0144"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.0571 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.007" length="0.038"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.1" length="0.0494"/></geometry>
+    </collision>
+  </link>
+  <link name="caster_fl_swivel_link">
+    <inertial>
+      <origin xyz="-0.009894 0 -0.022027" rpy="0 0 0"/>
+      <mass value="0.27758"/>
+      <inertia ixx="0.000142631" ixy="0" ixz="-4.7732e-05" iyy="0.000171337" iyz="0" izz="0.000109015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.008" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.021" length="0.012"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0154 0 -0.0153" rpy="0 0 0"/>
+      <geometry><box size="0.058 0.033 0.0035"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0252 -0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0252 0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.004" length="0.038"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+  </link>
+  <link name="caster_fl_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12996"/>
+      <inertia ixx="5.25347e-05" ixy="0" ixz="0" iyy="9.17212e-05" iyz="0" izz="5.25347e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+    </collision>
+  </link>
+  <link name="caster_fr_swivel_link">
+    <inertial>
+      <origin xyz="-0.009894 0 -0.022027" rpy="0 0 0"/>
+      <mass value="0.27758"/>
+      <inertia ixx="0.000142631" ixy="0" ixz="-4.7732e-05" iyy="0.000171337" iyz="0" izz="0.000109015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.008" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.021" length="0.012"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0154 0 -0.0153" rpy="0 0 0"/>
+      <geometry><box size="0.058 0.033 0.0035"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0252 -0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0252 0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.004" length="0.038"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+  </link>
+  <link name="caster_fr_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12996"/>
+      <inertia ixx="5.25347e-05" ixy="0" ixz="0" iyy="9.17212e-05" iyz="0" izz="5.25347e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+    </collision>
+  </link>
+  <link name="caster_rl_swivel_link">
+    <inertial>
+      <origin xyz="0.009894 0 -0.022027" rpy="0 0 0"/>
+      <mass value="0.27758"/>
+      <inertia ixx="0.000142631" ixy="0" ixz="4.7732e-05" iyy="0.000171337" iyz="0" izz="0.000109015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.008" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.021" length="0.012"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0154 0 -0.0153" rpy="0 0 0"/>
+      <geometry><box size="0.058 0.033 0.0035"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0252 -0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0252 0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.004" length="0.038"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+  </link>
+  <link name="caster_rl_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12996"/>
+      <inertia ixx="5.25347e-05" ixy="0" ixz="0" iyy="9.17212e-05" iyz="0" izz="5.25347e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+    </collision>
+  </link>
+  <link name="caster_rr_swivel_link">
+    <inertial>
+      <origin xyz="0.009894 0 -0.022027" rpy="0 0 0"/>
+      <mass value="0.27758"/>
+      <inertia ixx="0.000142631" ixy="0" ixz="4.7732e-05" iyy="0.000171337" iyz="0" izz="0.000109015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.008" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.021" length="0.012"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0154 0 -0.0153" rpy="0 0 0"/>
+      <geometry><box size="0.058 0.033 0.0035"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0252 -0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0252 0.01525 -0.043" rpy="0 0 0"/>
+      <geometry><box size="0.026 0.0025 0.056"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.004" length="0.038"/></geometry>
+      <material name="c_777880"/>
+    </visual>
+  </link>
+  <link name="caster_rr_wheel_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.12996"/>
+      <inertia ixx="5.25347e-05" ixy="0" ixz="0" iyy="9.17212e-05" iyz="0" izz="5.25347e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.0375" length="0.025"/></geometry>
+    </collision>
+  </link>
+  <link name="lift_stage2_link">
+    <inertial>
+      <origin xyz="0 0 0.291" rpy="0 0 0"/>
+      <mass value="1.01538"/>
+      <inertia ixx="0.0233253" ixy="0" ixz="0" iyy="0.0233253" iyz="0" izz="0.0012419"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 5e-05 0.291" rpy="0 0 0"/>
+      <geometry><box size="0.0636 0.0635 0.518"/></geometry>
+      <material name="c_757678"/>
+    </visual>
+  </link>
+  <link name="torso_link">
+    <inertial>
+      <origin xyz="0.02721 0.01045 0.043773" rpy="0 0 0"/>
+      <mass value="13.6765"/>
+      <inertia ixx="1.5464" ixy="0.00464505" ixz="-0.0580149" iyy="1.42211" iyz="0.0148432" izz="0.207744"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.097 -0.28 0.065" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.136 0.01"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.097 0.28 0.065" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.136 0.01"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.013 0 0.064" rpy="0 0 0"/>
+      <geometry><box size="0.242 0.276 0.008"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.097 0 0.04" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.7 0.04"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.3965" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.657"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.039 0.087" rpy="0 0 0"/>
+      <geometry><box size="0.035 0.038 0.038"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.039 0.087" rpy="0 0 0"/>
+      <geometry><box size="0.035 0.038 0.038"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.039 0 0.581" rpy="0 0 0"/>
+      <geometry><box size="0.038 0.035 0.038"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.039 0 0.661" rpy="0 0 0"/>
+      <geometry><box size="0.038 0.035 0.038"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.099 0 0.66" rpy="0 0 0"/>
+      <geometry><box size="0.006 0.14 0.13"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.058 0 0.62" rpy="0 0 0"/>
+      <geometry><box size="0.076 0.04 0.04"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.058 0 0.7" rpy="0 0 0"/>
+      <geometry><box size="0.076 0.04 0.04"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0.12235 0 0.70415" rpy="0 0 0"/>
+      <geometry><box size="0.0407 0.12 0.0313"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.7275" rpy="0 0 0"/>
+      <geometry><box size="0.07 0.07 0.005"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.7555" rpy="0 0 0"/>
+      <geometry><box size="0.068 0.068 0.051"/></geometry>
+      <material name="c_947708"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.801" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.02" length="0.04"/></geometry>
+      <material name="c_801212"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.35825" rpy="0 0 0"/>
+      <geometry><box size="0.057 0.057 0.5195"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.0515 -0.07325" rpy="0 0 0"/>
+      <geometry><box size="0.105 0.183 0.0505"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <visual>
+      <origin xyz="0.03 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.08 0.102"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.032 0 0.009" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.08 0.102"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.092 0.1335 0.057" rpy="0 0 0"/>
+      <geometry><box size="0.054 0.071 0.006"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.017 0 0.4135" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.044 0.603"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.0525 -0.044" rpy="0 0 0"/>
+      <geometry><box size="0.121 0.185 0.12"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <visual>
+      <origin xyz="0 -0.041 -0.022" rpy="0 0 0"/>
+      <geometry><box size="0.121 0.002 0.164"/></geometry>
+      <material name="c_939395"/>
+    </visual>
+    <collision>
+      <origin xyz="0.097 -0.28 0.065" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.136 0.01"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.097 0.28 0.065" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.136 0.01"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.013 0 0.064" rpy="0 0 0"/>
+      <geometry><box size="0.242 0.276 0.008"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.097 0 0.04" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.7 0.04"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 0.3965" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.657"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.099 0 0.66" rpy="0 0 0"/>
+      <geometry><box size="0.006 0.14 0.13"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.058 0 0.62" rpy="0 0 0"/>
+      <geometry><box size="0.076 0.04 0.04"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.058 0 0.7" rpy="0 0 0"/>
+      <geometry><box size="0.076 0.04 0.04"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 0.7555" rpy="0 0 0"/>
+      <geometry><box size="0.068 0.068 0.051"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 0.801" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.02" length="0.04"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.017 0 0.4135" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.044 0.603"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0.0525 -0.044" rpy="0 0 0"/>
+      <geometry><box size="0.121 0.185 0.12"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 -0.041 -0.022" rpy="0 0 0"/>
+      <geometry><box size="0.121 0.002 0.164"/></geometry>
+    </collision>
+  </link>
+  <link name="head_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.239"/>
+      <inertia ixx="0.000551907" ixy="0" ixz="0" iyy="4.69661e-05" iyz="0" izz="0.000558592"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.1634 0.0318"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.1634 0.0318"/></geometry>
+    </collision>
+  </link>
+  <link name="head_pantilt_bracket_link">
+    <inertial>
+      <origin xyz="-0.02 0 -0.02" rpy="0 0 0"/>
+      <mass value="0.165"/>
+      <inertia ixx="8.3875e-05" ixy="0" ixz="0" iyy="0.000215875" iyz="0" izz="0.00020075"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.044 0 -0.028" rpy="0 0 0"/>
+      <geometry><box size="0.108 0.05 0.003"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.0965 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.003 0.05 0.11"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.0233" rpy="0 0 0"/>
+      <geometry><box size="0.034 0.0285 0.0465"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+  </link>
+  <link name="head_pan_link">
+    <inertial>
+      <origin xyz="0 0 0.026" rpy="0 0 0"/>
+      <mass value="0.11"/>
+      <inertia ixx="2.72663e-05" ixy="0" ixz="0" iyy="3.04173e-05" iyz="0" izz="1.80423e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.026" rpy="0 0 0"/>
+      <geometry><box size="0.034 0.0285 0.0465"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.0015" rpy="0 0 0"/>
+      <geometry><box size="0.03 0.03 0.003"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+  </link>
+  <link name="head_tilt_link">
+    <inertial>
+      <origin xyz="0.01 0 -0.018" rpy="0 0 0"/>
+      <mass value="0.03"/>
+      <inertia ixx="1.229e-05" ixy="0" ixz="0" iyy="9.04e-06" iyz="0" izz="2.125e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.01 0 -0.018" rpy="0 0 0"/>
+      <geometry><box size="0.06 0.07 0.004"/></geometry>
+      <material name="c_697174"/>
+    </visual>
+  </link>
+  <link name="pantilt_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.239"/>
+      <inertia ixx="0.000551907" ixy="0" ixz="0" iyy="4.69661e-05" iyz="0" izz="0.000558592"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.1634 0.0318"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.1634 0.0318"/></geometry>
+    </collision>
+  </link>
+  <link name="nav_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.151"/>
+      <inertia ixx="0.000122967" ixy="0" ixz="0" iyy="2.96731e-05" iyz="0" izz="0.00012719"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.0936 0.0318"/></geometry>
+      <material name="c_262729"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.0367 0.0936 0.0318"/></geometry>
+    </collision>
+  </link>
+  <link name="imu_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="8.10417e-06" ixy="0" ixz="0" iyy="1.50042e-05" iyz="0" izz="1.83083e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.055 0.037 0.024"/></geometry>
+      <material name="c_153575"/>
+    </visual>
+  </link>
+  <link name="lidar_link">
+    <inertial>
+      <origin xyz="0 0 -0.0075" rpy="0 0 0"/>
+      <mass value="0.19"/>
+      <inertia ixx="0.000117958" ixy="0" ixz="0" iyy="0.000117958" iyz="0" izz="0.000187752"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0075" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.0385" length="0.039"/></geometry>
+      <material name="c_090910"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0075" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.0385" length="0.039"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_base">
+    <inertial>
+      <origin xyz="0 0 0.027324" rpy="0 0 0"/>
+      <mass value="0.5111"/>
+      <inertia ixx="0.00017" ixy="0" ixz="0" iyy="0.00017" iyz="0" izz="0.00016"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_v0.stl"/></geometry>
+      <material name="c_202020"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_v1.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link1">
+    <inertial>
+      <origin xyz="0.0054231 0 0.017086" rpy="0 0 0"/>
+      <mass value="0.5965"/>
+      <inertia ixx="8e-05" ixy="0" ixz="1e-05" iyy="3e-05" iyz="0" izz="8e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v1.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v2.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link2">
+    <inertial>
+      <origin xyz="-0.132 0 0" rpy="0 0 0"/>
+      <mass value="0.9084"/>
+      <inertia ixx="0.00051" ixy="0" ixz="0" iyy="0.01599" iyz="0" izz="0.01605"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link3">
+    <inertial>
+      <origin xyz="0.18531 0.00068376 0.051638" rpy="0 0 0"/>
+      <mass value="0.7089"/>
+      <inertia ixx="0.00036" ixy="-3e-05" ixz="0.00039" iyy="0.00423" iyz="1e-05" izz="0.0042"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v0.stl"/></geometry>
+      <material name="c_171717"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v1.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link4">
+    <inertial>
+      <origin xyz="0.040231 0.0044807 0.035335" rpy="0 0 0"/>
+      <mass value="0.3995"/>
+      <inertia ixx="0.00019" ixy="-2e-05" ixz="-9e-05" iyy="0.00023" iyz="2e-05" izz="0.00014"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link5">
+    <inertial>
+      <origin xyz="0.003612 0 0" rpy="0 0 0"/>
+      <mass value="0.4121"/>
+      <inertia ixx="0.00083" ixy="0" ixz="7e-05" iyy="0.00082" iyz="0" izz="0.00026"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_link6">
+    <inertial>
+      <origin xyz="0.041697 2.4368e-05 0.00014464" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.00038" ixy="0" ixz="0" iyy="0.00028" iyz="0" izz="0.0005"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v0.stl"/></geometry>
+      <material name="c_111111"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v1.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v2.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v3.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v4.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_finger_left">
+    <inertial>
+      <origin xyz="0.08 0.04 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="2e-05" ixy="0" ixz="0" iyy="3e-05" iyz="0" izz="3e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v1.stl"/></geometry>
+      <material name="c_335328"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v3.stl"/></geometry>
+      <material name="c_1009591"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_finger_right">
+    <inertial>
+      <origin xyz="0.08 -0.04 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="2e-05" ixy="0" ixz="0" iyy="3e-05" iyz="0" izz="3e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v1.stl"/></geometry>
+      <material name="c_335328"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v3.stl"/></geometry>
+      <material name="c_1009591"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="left_arm_tool0">
+  </link>
+  <link name="left_arm_wrist_camera">
+  </link>
+  <link name="right_arm_base">
+    <inertial>
+      <origin xyz="0 0 0.027324" rpy="0 0 0"/>
+      <mass value="0.5111"/>
+      <inertia ixx="0.00017" ixy="0" ixz="0" iyy="0.00017" iyz="0" izz="0.00016"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_v0.stl"/></geometry>
+      <material name="c_202020"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_v1.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_base_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link1">
+    <inertial>
+      <origin xyz="0.0054231 0 0.017086" rpy="0 0 0"/>
+      <mass value="0.5965"/>
+      <inertia ixx="8e-05" ixy="0" ixz="1e-05" iyy="3e-05" iyz="0" izz="8e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v1.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_v2.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link1_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link2">
+    <inertial>
+      <origin xyz="-0.132 0 0" rpy="0 0 0"/>
+      <mass value="0.9084"/>
+      <inertia ixx="0.00051" ixy="0" ixz="0" iyy="0.01599" iyz="0" izz="0.01605"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link2_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link3">
+    <inertial>
+      <origin xyz="0.18531 0.00068376 0.051638" rpy="0 0 0"/>
+      <mass value="0.7089"/>
+      <inertia ixx="0.00036" ixy="-3e-05" ixz="0.00039" iyy="0.00423" iyz="1e-05" izz="0.0042"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v0.stl"/></geometry>
+      <material name="c_171717"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v1.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link3_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link4">
+    <inertial>
+      <origin xyz="0.040231 0.0044807 0.035335" rpy="0 0 0"/>
+      <mass value="0.3995"/>
+      <inertia ixx="0.00019" ixy="-2e-05" ixz="-9e-05" iyy="0.00023" iyz="2e-05" izz="0.00014"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link4_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link5">
+    <inertial>
+      <origin xyz="0.003612 0 0" rpy="0 0 0"/>
+      <mass value="0.4121"/>
+      <inertia ixx="0.00083" ixy="0" ixz="7e-05" iyy="0.00082" iyz="0" izz="0.00026"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v1.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_v3.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link5_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_link6">
+    <inertial>
+      <origin xyz="0.041697 2.4368e-05 0.00014464" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.00038" ixy="0" ixz="0" iyy="0.00028" iyz="0" izz="0.0005"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v0.stl"/></geometry>
+      <material name="c_111111"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v1.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v2.stl"/></geometry>
+      <material name="c_454545"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v3.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_v4.stl"/></geometry>
+      <material name="c_969696"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_link6_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_finger_left">
+    <inertial>
+      <origin xyz="0.08 0.04 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="2e-05" ixy="0" ixz="0" iyy="3e-05" iyz="0" izz="3e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v1.stl"/></geometry>
+      <material name="c_335328"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_v3.stl"/></geometry>
+      <material name="c_1009591"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_left_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_finger_right">
+    <inertial>
+      <origin xyz="0.08 -0.04 0" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="2e-05" ixy="0" ixz="0" iyy="3e-05" iyz="0" izz="3e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v0.stl"/></geometry>
+      <material name="c_262626"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v1.stl"/></geometry>
+      <material name="c_335328"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v2.stl"/></geometry>
+      <material name="c_626262"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_v3.stl"/></geometry>
+      <material name="c_1009591"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="../meshes/dk1/dk1_finger_right_col.stl"/></geometry>
+    </collision>
+  </link>
+  <link name="right_arm_tool0">
+  </link>
+  <link name="right_arm_wrist_camera">
+  </link>
+  <link name="head_camera_left_camera_frame">
+  </link>
+  <link name="head_camera_left_camera_optical_frame">
+  </link>
+  <link name="head_camera_right_camera_frame">
+  </link>
+  <link name="head_camera_right_camera_optical_frame">
+  </link>
+  <link name="pantilt_camera_left_camera_frame">
+  </link>
+  <link name="pantilt_camera_left_camera_optical_frame">
+  </link>
+  <link name="pantilt_camera_right_camera_frame">
+  </link>
+  <link name="pantilt_camera_right_camera_optical_frame">
+  </link>
+  <link name="nav_camera_left_camera_frame">
+  </link>
+  <link name="nav_camera_left_camera_optical_frame">
+  </link>
+  <link name="nav_camera_right_camera_frame">
+  </link>
+  <link name="nav_camera_right_camera_optical_frame">
+  </link>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+  </joint>
+  <!-- trailing arm held at ride height (use robot_v1_suspension.urdf for the sprung version) -->
+  <joint name="left_suspension_joint" type="fixed">
+    <origin xyz="-0.12 0.206 0.025" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="left_suspension_link"/>
+  </joint>
+  <!-- ZLTECH ZLLG80ASM250-L hub motor, 200 mm tyre: 5.5 N.m rated / 16 N.m peak, 200 rpm (20.94 rad/s) -->
+  <joint name="left_wheel_joint" type="continuous">
+    <origin xyz="0.12 0.0441 -0.025" rpy="0 0 0"/>
+    <parent link="left_suspension_link"/>
+    <child link="left_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="16" velocity="20.94"/>
+    <dynamics damping="0.02" friction="0.05"/>
+  </joint>
+  <!-- trailing arm held at ride height (use robot_v1_suspension.urdf for the sprung version) -->
+  <joint name="right_suspension_joint" type="fixed">
+    <origin xyz="-0.12 -0.206 0.025" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="right_suspension_link"/>
+  </joint>
+  <!-- ZLTECH ZLLG80ASM250-L hub motor, 200 mm tyre: 5.5 N.m rated / 16 N.m peak, 200 rpm (20.94 rad/s) -->
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="0.12 -0.0441 -0.025" rpy="0 0 0"/>
+    <parent link="right_suspension_link"/>
+    <child link="right_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="16" velocity="20.94"/>
+    <dynamics damping="0.02" friction="0.05"/>
+  </joint>
+  <!-- Blickle LPA-PATH 75KF swivel caster: 75 x 25 wheel, 28 mm trail, passive -->
+  <joint name="caster_fl_swivel_joint" type="continuous">
+    <origin xyz="0.216 0.216 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="caster_fl_swivel_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="0" velocity="30"/>
+    <dynamics damping="0.002" friction="0.01"/>
+  </joint>
+  <joint name="caster_fl_wheel_joint" type="continuous">
+    <origin xyz="-0.028 0 -0.0625" rpy="0 0 0"/>
+    <parent link="caster_fl_swivel_link"/>
+    <child link="caster_fl_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="0" velocity="60"/>
+    <dynamics damping="0.001" friction="0.005"/>
+  </joint>
+  <joint name="caster_fr_swivel_joint" type="continuous">
+    <origin xyz="0.216 -0.216 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="caster_fr_swivel_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="0" velocity="30"/>
+    <dynamics damping="0.002" friction="0.01"/>
+  </joint>
+  <joint name="caster_fr_wheel_joint" type="continuous">
+    <origin xyz="-0.028 0 -0.0625" rpy="0 0 0"/>
+    <parent link="caster_fr_swivel_link"/>
+    <child link="caster_fr_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="0" velocity="60"/>
+    <dynamics damping="0.001" friction="0.005"/>
+  </joint>
+  <joint name="caster_rl_swivel_joint" type="continuous">
+    <origin xyz="-0.216 0.216 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="caster_rl_swivel_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="0" velocity="30"/>
+    <dynamics damping="0.002" friction="0.01"/>
+  </joint>
+  <joint name="caster_rl_wheel_joint" type="continuous">
+    <origin xyz="0.028 0 -0.0625" rpy="0 0 0"/>
+    <parent link="caster_rl_swivel_link"/>
+    <child link="caster_rl_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="0" velocity="60"/>
+    <dynamics damping="0.001" friction="0.005"/>
+  </joint>
+  <joint name="caster_rr_swivel_joint" type="continuous">
+    <origin xyz="-0.216 -0.216 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="caster_rr_swivel_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="0" velocity="30"/>
+    <dynamics damping="0.002" friction="0.01"/>
+  </joint>
+  <joint name="caster_rr_wheel_joint" type="continuous">
+    <origin xyz="0.028 0 -0.0625" rpy="0 0 0"/>
+    <parent link="caster_rr_swivel_link"/>
+    <child link="caster_rr_wheel_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="0" velocity="60"/>
+    <dynamics damping="0.001" friction="0.005"/>
+  </joint>
+  <!-- TiMOTION TL4 3-stage lifting column: 650 mm stroke, 600 N push, 25-39 mm/s under load (55 mm/s no load), self-locking -->
+  <joint name="lift_joint" type="prismatic">
+    <origin xyz="-0.03 0 0.66" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="torso_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="0.65" effort="600" velocity="0.039"/>
+    <dynamics damping="500" friction="50"/>
+  </joint>
+  <!-- middle tube of the column moves half the stroke -->
+  <joint name="lift_stage2_joint" type="prismatic">
+    <origin xyz="-0.03 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="lift_stage2_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="0.325" effort="600" velocity="0.0195"/>
+    <mimic joint="lift_joint" multiplier="0.5" offset="0"/>
+  </joint>
+  <!-- top head camera (ZED X, fixed, 10 deg down) -->
+  <joint name="head_camera_joint" type="fixed">
+    <origin xyz="0.158 0 0.701" rpy="0 0.174533 0"/>
+    <parent link="torso_link"/>
+    <child link="head_camera_link"/>
+  </joint>
+  <!-- pan-tilt for the second head camera: placed here provisionally until it is drawn in CAD -->
+  <joint name="head_pantilt_bracket_joint" type="fixed">
+    <origin xyz="0.19 0 0.58" rpy="0 0 0"/>
+    <parent link="torso_link"/>
+    <child link="head_pantilt_bracket_link"/>
+  </joint>
+  <!-- DYNAMIXEL XM430-W350-T at 12 V: 4.1 N.m stall, 46 rpm -->
+  <joint name="head_pan_joint" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="head_pantilt_bracket_link"/>
+    <child link="head_pan_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.5708" upper="1.5708" effort="4.1" velocity="4.8"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+  <!-- positive = look down -->
+  <joint name="head_tilt_joint" type="revolute">
+    <origin xyz="0 0 0.045" rpy="0 0 0"/>
+    <parent link="head_pan_link"/>
+    <child link="head_tilt_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.5236" upper="0.8727" effort="4.1" velocity="4.8"/>
+    <dynamics damping="0.1" friction="0.05"/>
+  </joint>
+  <joint name="pantilt_camera_joint" type="fixed">
+    <origin xyz="0.03 0 0" rpy="0 0 0"/>
+    <parent link="head_tilt_link"/>
+    <child link="pantilt_camera_link"/>
+  </joint>
+  <!-- navigation camera (ZED X Mini) on the base front panel, 15 deg down: provisional until drawn in CAD -->
+  <joint name="nav_camera_joint" type="fixed">
+    <origin xyz="0.314 0 0.15" rpy="0 0.261799 0"/>
+    <parent link="base_link"/>
+    <child link="nav_camera_link"/>
+  </joint>
+  <!-- WitMotion HWT905 on the belly pan near the drive axle: provisional until drawn in CAD -->
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="-0.02 -0.1 0.018" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+  <!-- RPLIDAR S2 (optional) on the front of the battery-bay lid; frame at the scan plane: provisional -->
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0.23 0 0.225" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+  </joint>
+  <!-- left arm (TRLC-DK1 follower) on its 10 mm mount plate, 4x M5 on 100 x 40 -->
+  <joint name="left_arm_mount_joint" type="fixed">
+    <origin xyz="0.097 0.28 0.07" rpy="0 0 0"/>
+    <parent link="torso_link"/>
+    <child link="left_arm_base"/>
+  </joint>
+  <joint name="left_arm_joint1" type="revolute">
+    <origin xyz="0 0 0.0615" rpy="0 0 0"/>
+    <parent link="left_arm_base"/>
+    <child link="left_arm_link1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0944" upper="2.0944" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="left_arm_joint2" type="revolute">
+    <origin xyz="0.02 0 0.0385" rpy="0 0 0"/>
+    <parent link="left_arm_link1"/>
+    <child link="left_arm_link2"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.0872665" upper="3.14159" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="left_arm_joint3" type="revolute">
+    <origin xyz="-0.264 0 0" rpy="0 0 0"/>
+    <parent link="left_arm_link2"/>
+    <child link="left_arm_link3"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-0.0872665" upper="4.71239" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="left_arm_joint4" type="revolute">
+    <origin xyz="0.244004 0 0.059971" rpy="0 0 0"/>
+    <parent link="left_arm_link3"/>
+    <child link="left_arm_link4"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.95" upper="1.5708" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="left_arm_joint5" type="revolute">
+    <origin xyz="0.061868 0 0.0425" rpy="0 0 0"/>
+    <parent link="left_arm_link4"/>
+    <child link="left_arm_link5"/>
+    <axis xyz="0 0 -1"/>
+    <limit lower="-1.5708" upper="1.5708" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="left_arm_joint6" type="revolute">
+    <origin xyz="0.032 0 -0.0425" rpy="0 0 0"/>
+    <parent link="left_arm_link5"/>
+    <child link="left_arm_link6"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-2.0944" upper="2.0944" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <!-- gripper: one DM4310 on a 8.75 mm pinion drives both fingers (114 N, 0.183 m/s) -->
+  <joint name="left_arm_gripper_joint" type="prismatic">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="left_arm_link6"/>
+    <child link="left_arm_finger_left"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.045" upper="0.001" effort="114" velocity="0.183"/>
+    <dynamics damping="0.5" friction="0.5"/>
+  </joint>
+  <joint name="left_arm_gripper_mimic_joint" type="prismatic">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="left_arm_link6"/>
+    <child link="left_arm_finger_right"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-0.045" upper="0.001" effort="114" velocity="0.183"/>
+    <dynamics damping="0.5" friction="0.5"/>
+    <mimic joint="left_arm_gripper_joint" multiplier="1" offset="0"/>
+  </joint>
+  <joint name="left_arm_tool0_joint" type="fixed">
+    <origin xyz="0.158 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="left_arm_link6"/>
+    <child link="left_arm_tool0"/>
+  </joint>
+  <joint name="left_arm_wrist_camera_joint" type="fixed">
+    <origin xyz="0.0471 0 0.063314" rpy="0 0.2618 0"/>
+    <parent link="left_arm_link6"/>
+    <child link="left_arm_wrist_camera"/>
+  </joint>
+  <!-- right arm (TRLC-DK1 follower) on its 10 mm mount plate, 4x M5 on 100 x 40 -->
+  <joint name="right_arm_mount_joint" type="fixed">
+    <origin xyz="0.097 -0.28 0.07" rpy="0 0 0"/>
+    <parent link="torso_link"/>
+    <child link="right_arm_base"/>
+  </joint>
+  <joint name="right_arm_joint1" type="revolute">
+    <origin xyz="0 0 0.0615" rpy="0 0 0"/>
+    <parent link="right_arm_base"/>
+    <child link="right_arm_link1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0944" upper="2.0944" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="right_arm_joint2" type="revolute">
+    <origin xyz="0.02 0 0.0385" rpy="0 0 0"/>
+    <parent link="right_arm_link1"/>
+    <child link="right_arm_link2"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.0872665" upper="3.14159" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="right_arm_joint3" type="revolute">
+    <origin xyz="-0.264 0 0" rpy="0 0 0"/>
+    <parent link="right_arm_link2"/>
+    <child link="right_arm_link3"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-0.0872665" upper="4.71239" effort="27" velocity="5.49"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="right_arm_joint4" type="revolute">
+    <origin xyz="0.244004 0 0.059971" rpy="0 0 0"/>
+    <parent link="right_arm_link3"/>
+    <child link="right_arm_link4"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.95" upper="1.5708" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="right_arm_joint5" type="revolute">
+    <origin xyz="0.061868 0 0.0425" rpy="0 0 0"/>
+    <parent link="right_arm_link4"/>
+    <child link="right_arm_link5"/>
+    <axis xyz="0 0 -1"/>
+    <limit lower="-1.5708" upper="1.5708" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <joint name="right_arm_joint6" type="revolute">
+    <origin xyz="0.032 0 -0.0425" rpy="0 0 0"/>
+    <parent link="right_arm_link5"/>
+    <child link="right_arm_link6"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-2.0944" upper="2.0944" effort="7" velocity="20.94"/>
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+  <!-- gripper: one DM4310 on a 8.75 mm pinion drives both fingers (114 N, 0.183 m/s) -->
+  <joint name="right_arm_gripper_joint" type="prismatic">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="right_arm_link6"/>
+    <child link="right_arm_finger_left"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.045" upper="0.001" effort="114" velocity="0.183"/>
+    <dynamics damping="0.5" friction="0.5"/>
+  </joint>
+  <joint name="right_arm_gripper_mimic_joint" type="prismatic">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="right_arm_link6"/>
+    <child link="right_arm_finger_right"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-0.045" upper="0.001" effort="114" velocity="0.183"/>
+    <dynamics damping="0.5" friction="0.5"/>
+    <mimic joint="right_arm_gripper_joint" multiplier="1" offset="0"/>
+  </joint>
+  <joint name="right_arm_tool0_joint" type="fixed">
+    <origin xyz="0.158 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="right_arm_link6"/>
+    <child link="right_arm_tool0"/>
+  </joint>
+  <joint name="right_arm_wrist_camera_joint" type="fixed">
+    <origin xyz="0.0471 0 0.063314" rpy="0 0.2618 0"/>
+    <parent link="right_arm_link6"/>
+    <child link="right_arm_wrist_camera"/>
+  </joint>
+  <joint name="head_camera_left_camera_frame_joint" type="fixed">
+    <origin xyz="0 0.06 0" rpy="0 0 0"/>
+    <parent link="head_camera_link"/>
+    <child link="head_camera_left_camera_frame"/>
+  </joint>
+  <joint name="head_camera_left_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="head_camera_left_camera_frame"/>
+    <child link="head_camera_left_camera_optical_frame"/>
+  </joint>
+  <joint name="head_camera_right_camera_frame_joint" type="fixed">
+    <origin xyz="0 -0.06 0" rpy="0 0 0"/>
+    <parent link="head_camera_link"/>
+    <child link="head_camera_right_camera_frame"/>
+  </joint>
+  <joint name="head_camera_right_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="head_camera_right_camera_frame"/>
+    <child link="head_camera_right_camera_optical_frame"/>
+  </joint>
+  <joint name="pantilt_camera_left_camera_frame_joint" type="fixed">
+    <origin xyz="0 0.06 0" rpy="0 0 0"/>
+    <parent link="pantilt_camera_link"/>
+    <child link="pantilt_camera_left_camera_frame"/>
+  </joint>
+  <joint name="pantilt_camera_left_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="pantilt_camera_left_camera_frame"/>
+    <child link="pantilt_camera_left_camera_optical_frame"/>
+  </joint>
+  <joint name="pantilt_camera_right_camera_frame_joint" type="fixed">
+    <origin xyz="0 -0.06 0" rpy="0 0 0"/>
+    <parent link="pantilt_camera_link"/>
+    <child link="pantilt_camera_right_camera_frame"/>
+  </joint>
+  <joint name="pantilt_camera_right_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="pantilt_camera_right_camera_frame"/>
+    <child link="pantilt_camera_right_camera_optical_frame"/>
+  </joint>
+  <joint name="nav_camera_left_camera_frame_joint" type="fixed">
+    <origin xyz="0 0.025 0" rpy="0 0 0"/>
+    <parent link="nav_camera_link"/>
+    <child link="nav_camera_left_camera_frame"/>
+  </joint>
+  <joint name="nav_camera_left_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="nav_camera_left_camera_frame"/>
+    <child link="nav_camera_left_camera_optical_frame"/>
+  </joint>
+  <joint name="nav_camera_right_camera_frame_joint" type="fixed">
+    <origin xyz="0 -0.025 0" rpy="0 0 0"/>
+    <parent link="nav_camera_link"/>
+    <child link="nav_camera_right_camera_frame"/>
+  </joint>
+  <joint name="nav_camera_right_camera_optical_frame_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="nav_camera_right_camera_frame"/>
+    <child link="nav_camera_right_camera_optical_frame"/>
+  </joint>
+  <gazebo reference="head_camera_left_camera_frame">
+    <sensor name="head_camera" type="rgbd_camera">
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <topic>head_camera</topic>
+      <camera>
+        <horizontal_fov>1.91986</horizontal_fov>
+        <image><width>960</width><height>600</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>20</far></clip>
+        <depth_camera><clip><near>0.3</near><far>20</far></clip></depth_camera>
+        <optical_frame_id>head_camera_left_camera_optical_frame</optical_frame_id>
+      </camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="pantilt_camera_left_camera_frame">
+    <sensor name="pantilt_camera" type="rgbd_camera">
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <topic>pantilt_camera</topic>
+      <camera>
+        <horizontal_fov>1.91986</horizontal_fov>
+        <image><width>960</width><height>600</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>20</far></clip>
+        <depth_camera><clip><near>0.3</near><far>20</far></clip></depth_camera>
+        <optical_frame_id>pantilt_camera_left_camera_optical_frame</optical_frame_id>
+      </camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="nav_camera_left_camera_frame">
+    <sensor name="nav_camera" type="rgbd_camera">
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <topic>nav_camera</topic>
+      <camera>
+        <horizontal_fov>1.91986</horizontal_fov>
+        <image><width>960</width><height>600</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>8</far></clip>
+        <depth_camera><clip><near>0.1</near><far>8</far></clip></depth_camera>
+        <optical_frame_id>nav_camera_left_camera_optical_frame</optical_frame_id>
+      </camera>
+    </sensor>
+  </gazebo>
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>200</update_rate>
+      <topic>imu</topic>
+    </sensor>
+  </gazebo>
+  <gazebo reference="lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <topic>scan</topic>
+      <lidar>
+        <scan><horizontal><samples>3200</samples><resolution>1</resolution><min_angle>-3.14159</min_angle><max_angle>3.14159</max_angle></horizontal></scan>
+        <range><min>0.05</min><max>30.0</max><resolution>0.01</resolution></range>
+      </lidar>
+    </sensor>
+  </gazebo>
+  <gazebo reference="left_wheel_link"><mu1>1.0</mu1><mu2>1.0</mu2><kp>1e6</kp><kd>100</kd></gazebo>
+  <gazebo reference="right_wheel_link"><mu1>1.0</mu1><mu2>1.0</mu2><kp>1e6</kp><kd>100</kd></gazebo>
+  <gazebo reference="caster_fl_wheel_link"><mu1>0.6</mu1><mu2>0.6</mu2></gazebo>
+  <gazebo reference="caster_fr_wheel_link"><mu1>0.6</mu1><mu2>0.6</mu2></gazebo>
+  <gazebo reference="caster_rl_wheel_link"><mu1>0.6</mu1><mu2>0.6</mu2></gazebo>
+  <gazebo reference="caster_rr_wheel_link"><mu1>0.6</mu1><mu2>0.6</mu2></gazebo>
+</robot>
