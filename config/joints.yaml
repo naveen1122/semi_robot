@@ -1,0 +1,26 @@
+# Actuated joints, limits and the data they come from. Position limits in rad or m.
+drive:
+  left_wheel_joint:  {type: continuous, control: velocity, effort_Nm: 16.0, rated_Nm: 5.5, velocity_rad_s: 20.94, wheel_radius_m: 0.100, source: ZLTECH ZLLG80ASM250-L V1.0 (200 rpm, 24 V)}
+  right_wheel_joint: {type: continuous, control: velocity, effort_Nm: 16.0, rated_Nm: 5.5, velocity_rad_s: 20.94, wheel_radius_m: 0.100}
+  wheel_separation_m: 0.5002
+  max_linear_speed_m_s: 2.09     # motor limit; set a software limit for indoor work
+casters: {joints: [caster_fl/fr/rl/rr_swivel_joint, caster_*_wheel_joint], type: passive, wheel_radius_m: 0.0375, trail_m: 0.028, source: Blickle LPA-PATH 75KF}
+lift:
+  lift_joint: {type: prismatic, control: position, range_m: [0.0, 0.650], effort_N: 600, velocity_m_s: 0.039, source: TiMOTION TL4 (25 mm/s at 600 N, 55 mm/s no load)}
+  lift_stage2_joint: {mimic: lift_joint, multiplier: 0.5}
+  moving_mass_kg: 22.7           # torso, head, both arms
+head:
+  head_pan_joint:  {range_rad: [-1.5708, 1.5708], effort_Nm: 4.1, velocity_rad_s: 4.8, source: DYNAMIXEL XM430-W350-T at 12 V}
+  head_tilt_joint: {range_rad: [-0.5236, 0.8727], effort_Nm: 4.1, velocity_rad_s: 4.8, positive: look down}
+arms:   # same for left_ and right_ prefixes; position limits from the TRLC-DK1 follower URDF
+  arm_joint1: {range_rad: [-2.0944, 2.0944], effort_Nm: 27, velocity_rad_s: 5.49, motor: DAMIAO DM-J4340-2EC}
+  arm_joint2: {range_rad: [-0.0873, 3.1416], effort_Nm: 27, velocity_rad_s: 5.49, motor: DM-J4340-2EC}
+  arm_joint3: {range_rad: [-0.0873, 4.7124], effort_Nm: 27, velocity_rad_s: 5.49, motor: DM-J4340-2EC}
+  arm_joint4: {range_rad: [-1.95, 1.5708], effort_Nm: 7, velocity_rad_s: 20.94, motor: DM-J4310-2EC}
+  arm_joint5: {range_rad: [-1.5708, 1.5708], effort_Nm: 7, velocity_rad_s: 20.94, motor: DM-J4310-2EC}
+  arm_joint6: {range_rad: [-2.0944, 2.0944], effort_Nm: 7, velocity_rad_s: 20.94, motor: DM-J4310-2EC}
+  arm_gripper_joint: {range_m: [-0.045, 0.001], effort_N: 114, velocity_m_s: 0.183, note: "-0.045 = open; arm_gripper_mimic_joint follows x1"}
+suspension_variant:   # robot_v1_suspension.urdf only
+  left/right_suspension_joint: {type: revolute, range_rad: [-0.11, 0.11], negative: wheel moves up}
+  gas_spring_model: {torsional_stiffness_Nm_rad: 45, spring_reference_rad: 0.75, preload_at_zero_Nm: 33.8, damping_Nms_rad: 2.0}
+masses_kg: {total: 88.5, base_link: 54.6, torso_link: 13.7, each_arm: 4.1, each_drive_wheel: 3.4}

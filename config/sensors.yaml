@@ -1,0 +1,70 @@
+# Sensor definitions for simulators that do not read the Gazebo tags (Isaac Lab, MuJoCo, custom).
+# Pinhole model for the left (depth reference) camera at 960 x 600, the ZED 2x2 binning mode.
+# Spec: 110 deg H x 80 deg V field of view (2.2 mm lens), 15/30/60 fps at 1920x1200, 120 fps at 960x600.
+cameras:
+  head_camera:
+    device: ZED X, 2.2 mm lens, fixed, 10 deg down
+    mounted_on: torso_link (moves with the lift)
+    body_frame: head_camera_link
+    depth_frame: head_camera_left_camera_optical_frame   # z forward, x right, y down
+    rgb_frame: head_camera_left_camera_optical_frame
+    right_frame: head_camera_right_camera_optical_frame
+    baseline_m: 0.12
+    width: 960
+    height: 600
+    fps: 30
+    fx: 336.10
+    fy: 336.10
+    cx: 480.0
+    cy: 300.0
+    horizontal_fov_deg: 110
+    depth_min_m: 0.3
+    depth_max_m: 20.0
+  pantilt_camera:
+    device: ZED X, 2.2 mm lens, on head_pan_joint + head_tilt_joint
+    mounted_on: head_tilt_link
+    body_frame: pantilt_camera_link
+    depth_frame: pantilt_camera_left_camera_optical_frame   # z forward, x right, y down
+    rgb_frame: pantilt_camera_left_camera_optical_frame
+    right_frame: pantilt_camera_right_camera_optical_frame
+    baseline_m: 0.12
+    width: 960
+    height: 600
+    fps: 30
+    fx: 336.10
+    fy: 336.10
+    cx: 480.0
+    cy: 300.0
+    horizontal_fov_deg: 110
+    depth_min_m: 0.3
+    depth_max_m: 20.0
+  nav_camera:
+    device: ZED X Mini, 2.2 mm lens, base front, 15 deg down
+    mounted_on: base_link
+    body_frame: nav_camera_link
+    depth_frame: nav_camera_left_camera_optical_frame   # z forward, x right, y down
+    rgb_frame: nav_camera_left_camera_optical_frame
+    right_frame: nav_camera_right_camera_optical_frame
+    baseline_m: 0.05
+    width: 960
+    height: 600
+    fps: 30
+    fx: 336.10
+    fy: 336.10
+    cx: 480.0
+    cy: 300.0
+    horizontal_fov_deg: 110
+    depth_min_m: 0.1
+    depth_max_m: 8.0
+imu:
+  device: WitMotion HWT905 (9-axis AHRS)
+  frame: imu_link
+  rate_hz: 200
+  note: each ZED camera also has a 400 Hz IMU (accel +-12 g, gyro +-1000 dps) in its own body frame
+lidar:
+  device: Slamtec RPLIDAR S2 (optional)
+  frame: lidar_link
+  rate_hz: 10
+  samples_per_scan: 3200
+  range_m: [0.05, 30.0]
+  fov_deg: 360   # rear half is blocked by the electronics hood at this provisional position
